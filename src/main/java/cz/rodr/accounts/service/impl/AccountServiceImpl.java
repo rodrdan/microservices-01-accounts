@@ -26,9 +26,6 @@ public class AccountServiceImpl implements IAccountsService {
     private AccountsRepository accountsRepository;
     private CustomerRepository customerRepository;
 
-    /**
-     * @param customerDto - CustomerDto Object
-     */
     @Override
     public void createAccount(CustomerDto customerDto) {
         Customer customer = CustomerMapper.mapToCustomer(customerDto, new Customer());
@@ -55,10 +52,6 @@ public class AccountServiceImpl implements IAccountsService {
         return newAccount;
     }
 
-    /**
-     * @param mobileNumber - Input mobile number
-     * @return Accounts Details based on a given mobile number
-     */
     @Override
     public CustomerDto fetchAccount(String mobileNumber) {
         Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
@@ -73,10 +66,6 @@ public class AccountServiceImpl implements IAccountsService {
         return customerDto;
     }
 
-    /**
-     * @param customerDto - CustomerDto Object
-     * @return boolean indicating if the update of Account details is successful or not
-     */
     @Override
     public boolean updateAccount(CustomerDto customerDto) {
         boolean isUpdated = false;
@@ -97,5 +86,14 @@ public class AccountServiceImpl implements IAccountsService {
             isUpdated = true;
         }
         return  isUpdated;
+    }
+    @Override
+    public boolean deleteAccount(String mobileNumber) {
+        Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
+                () -> new ResourceNotFoundException("Customer", "mobileNumber", mobileNumber)
+        );
+        accountsRepository.deleteByCustomerId(customer.getCustomerId());
+        customerRepository.deleteById(customer.getCustomerId());
+        return true;
     }
 }
