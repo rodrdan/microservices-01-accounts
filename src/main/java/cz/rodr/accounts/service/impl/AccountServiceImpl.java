@@ -1,10 +1,13 @@
 package cz.rodr.accounts.service.impl;
 
 import cz.rodr.accounts.constants.AccountsConstants;
+import cz.rodr.accounts.dto.AccountsDto;
 import cz.rodr.accounts.dto.CustomerDto;
 import cz.rodr.accounts.entity.Accounts;
 import cz.rodr.accounts.entity.Customer;
 import cz.rodr.accounts.exception.CustomerAlreadyExistsException;
+import cz.rodr.accounts.exception.ResourceNotFoundException;
+import cz.rodr.accounts.mapper.AccountsMapper;
 import cz.rodr.accounts.mapper.CustomerMapper;
 import cz.rodr.accounts.repository.AccountsRepository;
 import cz.rodr.accounts.repository.CustomerRepository;
@@ -12,6 +15,7 @@ import cz.rodr.accounts.service.IAccountsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.ReadOnlyFileSystemException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
@@ -50,5 +54,23 @@ public class AccountServiceImpl implements IAccountsService {
         newAccount.setCreatedAt(LocalDateTime.now());
         newAccount.setCreatedBy("Anonymous");
         return newAccount;
+    }
+
+    /**
+     * @param mobileNumber - Input mobile number
+     * @return Accounts Details based on a given mobile number
+     */
+    @Override
+    public CustomerDto fetchAccount(String mobileNumber) {
+        Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
+                () -> new ResourceNotFoundException("Customer", "mobileNumber", mobileNumber)
+        );
+        Accounts accounts = accountsRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(
+                () -> new ResourceNotFoundException("Accounts", "customerId", customer.getCustomerId().toString())
+        );
+        CustomerDto customerDto = CustomerMapper.mapToCustomerDto(customer, new CustomerDto());
+        customerDto.setAccountsDto(AccountsMapper.mapToAccountsDto(accounts, new AccountsDto()));
+
+        return customerDto;
     }
 }
