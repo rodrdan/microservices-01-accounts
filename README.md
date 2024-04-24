@@ -7,4 +7,4 @@ Accounts microservice offers a REST API that let you:
 - update an account
 - delete an account.
 
-DB: H2 in-memory
+DB used: H2 in-memory
