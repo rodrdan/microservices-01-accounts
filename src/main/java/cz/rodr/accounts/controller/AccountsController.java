@@ -97,7 +97,6 @@ public class AccountsController {
                     .body(new ResponseDto(AccountsConstants.STATUS_417, AccountsConstants.MESSAGE_417_UPDATE));
         }
     }
-
     @Operation(
             summary = "Delete account REST API",
             description = "REST API to delete a Customer & Account in EazyBank"

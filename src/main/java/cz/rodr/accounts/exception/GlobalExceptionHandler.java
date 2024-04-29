@@ -44,16 +44,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
     }
 
-    // this will handle exception thrown by @Valid used with RequestBody
+    // this will handle @Valid exception when @RequestBody has invalid input
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
-        // this will get all binding errors from the exception
         Map<String, String> validationErrors = new HashMap<>();
+        // this will get all binding errors from the exception
         List<ObjectError> validationErrorList = ex.getBindingResult().getAllErrors();
         // this will retrieve just fields and messages of all the errors
-        validationErrorList.forEach((error) -> {
+        validationErrorList.forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String validationMsg = error.getDefaultMessage();
             validationErrors.put(fieldName, validationMsg);
