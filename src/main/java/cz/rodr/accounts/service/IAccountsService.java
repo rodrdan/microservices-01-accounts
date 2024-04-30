@@ -4,7 +4,6 @@ import cz.rodr.accounts.dto.CustomerDto;
 
 public interface IAccountsService {
 
-
     /**
      * @param customerDto - CustomerDto Object
      */
@@ -22,7 +21,6 @@ public interface IAccountsService {
      * @param customerDto CustomerDto object
      * @return boolean indicating if the update of Account details is successful or not
      */
-
     boolean updateAccount(CustomerDto customerDto);
 
     /**

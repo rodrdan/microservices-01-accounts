@@ -4,6 +4,10 @@ import cz.rodr.accounts.dto.AccountsDto;
 import cz.rodr.accounts.entity.Accounts;
 
 public class AccountsMapper {
+
+    private AccountsMapper() {
+        // prevent instantiation
+    }
     public static AccountsDto mapToAccountsDto(Accounts accounts, AccountsDto accountsDto) {
         accountsDto.setAccountNumber(accounts.getAccountNumber());
         accountsDto.setAccountType(accounts.getAccountType());

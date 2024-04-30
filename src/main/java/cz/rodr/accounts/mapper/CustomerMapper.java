@@ -5,6 +5,10 @@ import cz.rodr.accounts.entity.Customer;
 
 public class CustomerMapper {
 
+    private CustomerMapper() {
+        // prevent instantiation
+    }
+
     public static CustomerDto mapToCustomerDto(Customer customer, CustomerDto customerDto) {
         customerDto.setName(customer.getName());
         customerDto.setEmail(customer.getEmail());

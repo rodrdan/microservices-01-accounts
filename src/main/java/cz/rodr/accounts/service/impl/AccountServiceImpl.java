@@ -81,7 +81,7 @@ public class AccountServiceImpl implements IAccountsService {
             customerRepository.save(customer);
             isUpdated = true;
         }
-        return  isUpdated;
+        return isUpdated;
     }
     @Override
     public boolean deleteAccount(String mobileNumber) {

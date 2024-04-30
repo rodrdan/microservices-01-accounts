@@ -16,7 +16,7 @@ public class AccountsDto {
             description = "Account number of EazyBank account", example = "09876543210"
     )
     @NotEmpty(message = "Account number can not be empty or null.")
-    @Pattern(regexp = "(^$|[0-9]{10})", message = "Account number must be 10 digits.")
+    @Pattern(regexp = "(^$|\\d{10})", message = "Account number must be 10 digits.")
     private Long accountNumber;
 
     @Schema(
